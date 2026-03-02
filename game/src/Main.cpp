@@ -149,8 +149,12 @@ double GetFrameStartTime()
 }
 
 /* TODO
-* Add Entity group tracking for loaded resources
 * Resource Manager preloads
+* Sprite Resource
+* Hierarchical transforms
+* Collisions
+* Action Manager
+* Editor?
 */
 
 int main()

@@ -13,9 +13,10 @@ void PlayerComponent::Update()
 
         if (ShootThisFrame)
         {
-            if (GetFrameStartTime() - LastShotTime > ReloadTime)
+            LastShotTime += GetDeltaTime();
+            while (LastShotTime > ReloadTime)
             {
-                LastShotTime = GetFrameStartTime();
+                LastShotTime -= ReloadTime;
 
                 Vector2 pos = transform->Position;
 
