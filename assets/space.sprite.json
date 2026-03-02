@@ -1,0 +1,14 @@
+{
+	"Image": "simpleSpace_tilesheet@2.png",
+	"FrameType": "Grid",
+	"GridInfo" : {
+		"NameType" : "Index",
+		"Width" : 8,
+		"Height" : 6
+	},
+	"Meta": {
+		"version": "1.0",
+		"createdBy": "staged_execution_test",
+		"timestamp": "2026-02-23T00:00:00Z"
+	}
+}
