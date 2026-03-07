@@ -18,6 +18,8 @@ namespace SpriteManager
         std::atomic_bool Ready = false;
 
         void Draw(size_t frame, Vector2 position, float scale, float rotation, Color tint = WHITE);
+
+        Rectangle GetFrameRect(size_t frame);
     };
 
     using SpriteReference = std::shared_ptr<Sprite>;

@@ -22,6 +22,14 @@ namespace SpriteManager
         DrawTexturePro(Texture->ID, sourceRect, destRect, { destRect.width * 0.5f, destRect.height * 0.5f }, rotation, tint);
     }
 
+    Rectangle Sprite::GetFrameRect(size_t frame)
+    {
+        if (Frames.contains(frame))
+            return Frames[frame];
+        
+        return Rectangle{ 0,0,0,0 };
+    }
+
     void SpriteInstance::Draw(Vector2 position, Color tint)
     {
         SpriteRef->Draw(CurrentFrame, position, Scale, Rotation, tint);
