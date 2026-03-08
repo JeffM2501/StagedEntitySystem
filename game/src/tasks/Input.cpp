@@ -9,6 +9,10 @@ void InputTask::Tick()
 {
     Vector2 inputVector = { 0.0f, 0.0f };
 
+    float speedMod = 1.0f;
+    if (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT))
+        speedMod = 1.5f;
+
     if (IsKeyDown(KEY_W))
         inputVector.y -= 1.0f;
     if (IsKeyDown(KEY_S))
@@ -26,8 +30,9 @@ void InputTask::Tick()
 
     if (Vector2LengthSqr(inputVector) > 0.001f)
     {
-        inputVector = Vector2Normalize(inputVector);
+        inputVector = Vector2Scale(Vector2Normalize(inputVector), speedMod);
     }
+
 
     auto* player = EntitySystem::GetFirstComponentOfType<PlayerComponent>();
     if (player)
