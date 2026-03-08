@@ -21,7 +21,10 @@
             "Frame": 0,
             "Rotation" :  90
           },
-          "BulletPrefab": "bullet.prefab.json"
+          "BulletPrefab": "bullet.prefab.json",
+          "BulletSpeedMultiplier": 3.0,
+          "BulletSpeedVariance": 2.5,
+          "BulletSpreadDelta" : 25
         }
       }
     }

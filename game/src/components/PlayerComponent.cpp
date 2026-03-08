@@ -20,7 +20,7 @@ void PlayerComponent::Update()
         {
             if (LastShotTime > ReloadTime)
             {
-                LastShotTime = 0;;
+                LastShotTime = 0;
 
                 Vector2 pos = transform->Position;
 
@@ -30,10 +30,9 @@ void PlayerComponent::Update()
                         if (bulletTransform)
                         {
                             bulletTransform->Position = pos;
-                            constexpr int spread = 50;
-                            float speed = PlayerSpeed * 3 + float(GetRandomValue(0, int(PlayerSpeed)));
+                            float speed = PlayerSpeed * ShotSpeedMultiplyer + float(GetRandomValue(0, int(PlayerSpeed * ShotSpeedVariance)));
 
-                            bulletTransform->Velocity = Vector2(speed, float(GetRandomValue(-spread, spread))) + (Input * PlayerSpeed);
+                            bulletTransform->Velocity = Vector2(speed, float(GetRandomValue(int(-ShotSpread), int(ShotSpread)))) + (Input * PlayerSpeed);
                         }
                     });
             }

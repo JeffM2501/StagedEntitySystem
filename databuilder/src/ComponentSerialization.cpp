@@ -38,7 +38,9 @@ namespace ComponentSerialization
         SerializeNumber("PlayerSpeed", 100.0f, j, out);
         SerializeNumber("ReloadTime", 0.25f, j, out);
         SeralizeAssetReference("BulletPrefab", j, out);
-
+        SerializeNumber("BulletSpreadDelta", 50.0f, j, out);
+        SerializeNumber("BulletSpeedMultiplier", 3.0f, j, out);
+        SerializeNumber("BulletSpeedVariance", 1.0f, j, out);
         SeralizeSpriteReference("Sprite", j, out);
     }
 

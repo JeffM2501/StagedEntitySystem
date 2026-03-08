@@ -17,9 +17,9 @@ void OverlayTask::Tick()
     int y = 10;
 
     if (UseInterpolateNPCs)
-        DrawText("Interpolation: ON (Press Space to toggle)", x, y, 20, GREEN);
+        DrawText("Interpolation: ON (Press F2 to toggle)", x, y, 20, GREEN);
     else
-        DrawText("Interpolation: OFF (Press Space to toggle)", x, y, 20, RED);
+        DrawText("Interpolation: OFF (Press F2 to toggle)", x, y, 20, RED);
 
     Rectangle graphBounds = { float(x + 460), float(y + 3), 400, 60 };
     FameTimeTracker.DrawGraph(graphBounds);

@@ -28,6 +28,9 @@ void ComponentReader::OnComponentData(EntitySystem::EntityComponent* component, 
         player->PlayerSpeed = buffer.Read<float>();
         player->ReloadTime = buffer.Read<float>();
         player->BulletPrefab = buffer.Read<size_t>();
+        player->ShotSpread = buffer.Read<float>();
+        player->ShotSpeedMultiplyer = buffer.Read<float>();
+        player->ShotSpeedVariance = buffer.Read<float>();
 
         player->Sprite = SpriteManager::LoadFromBuffer(buffer);
 

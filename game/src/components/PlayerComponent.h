@@ -25,6 +25,10 @@ struct PlayerComponent : public EntitySystem::EntityComponent
 
     size_t BulletPrefab = 0;
 
+    float ShotSpread = 50.0f;
+    float ShotSpeedMultiplyer = 3;
+    float ShotSpeedVariance = 1.0f;
+
     SpriteManager::SpriteInstance Sprite;
 
     void Update();

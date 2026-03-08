@@ -21,7 +21,7 @@ void BulletComponent::Update()
         transform->Position += transform->Velocity * GetDeltaTime();
     }
 
-    Sprite.Rotation += 500 * GetDeltaTime() * SpinDir;
+    Sprite.Rotation += 1000 * GetDeltaTime() * SpinDir;
     Sprite.Rotation = fmodf(Sprite.Rotation, 360);
 }
 
