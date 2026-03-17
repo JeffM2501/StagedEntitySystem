@@ -28,8 +28,8 @@ void NPCSpawnComponent::OnAwake()
                 auto npc = EntitySystem::GetEntityComponent<NPCComponent>(entities[0]);
                 if (npc)
                 {
-                    npc->Size = size;
-                    npc->Tint = Color{ uint8_t(GetRandomValue(32, 64)), uint8_t(GetRandomValue(0, 32)), uint8_t(GetRandomValue(128, 255)), 255 };
+                    npc->Data.Size = size;
+                    npc->Data.Tint = Color{ uint8_t(GetRandomValue(32, 64)), uint8_t(GetRandomValue(0, 32)), uint8_t(GetRandomValue(128, 255)), 255 };
                 }
             });
     }

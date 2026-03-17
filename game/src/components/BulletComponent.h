@@ -7,20 +7,16 @@
 #include "EntitySystem.h"
 #include "TransformComponent.h"
 
+#include "components/data/ComponentData.h"
+
 struct BulletComponent : public EntitySystem::EntityComponent
 {
     DECLARE_SIMPLE_COMPONENT(BulletComponent);
 
-    float Size = 4;
-    Color Tint = YELLOW;
-    double LastUpdateTime = 0;
-
-    float Damage = 10;
-    float Lifetime = 3.0f;
+    Components::BulletComponentData Data;
 
     float SpinDir = 1.0f;
-
-    SpriteManager::SpriteInstance Sprite;
+    double LastUpdateTime = 0;
 
     void Update();
 

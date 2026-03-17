@@ -50,7 +50,7 @@ void NPCComponent::Update()
     auto transform = GetEntityComponent<TransformComponent>();
     if (transform)
     {
-        float realSize = Sprite.SpriteRef->GetFrameRect(Sprite.CurrentFrame).width * Sprite.Scale;
+        float realSize = Data.Sprite.SpriteRef->GetFrameRect(Data.Sprite.CurrentFrame).width * Data.Sprite.Scale;
         float delta = TaskManager::GetFixedDeltaTime();
         MoveEntity(*transform, realSize*0.5f, transform->Velocity * delta, WorldBounds.load());
         LastUpdateTime = GetFrameStartTime();
@@ -59,10 +59,7 @@ void NPCComponent::Update()
 
 bool NPCComponent::OnDataRead(BufferReader& buffer)
 {
-    Size = buffer.Read<float>();
-    Tint = buffer.ReadColor();
-
-    Sprite = SpriteManager::LoadFromBuffer(buffer);
+    Data.Read(buffer);
 
     TraceLog(LOG_INFO, "Loaded NPCComponent for entity %zu", EntityID);
 

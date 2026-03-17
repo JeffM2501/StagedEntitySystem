@@ -48,7 +48,6 @@ namespace SpriteManager
         SpriteReference sprite = std::make_shared<Sprite>();
         ResourceManager::LoadResource(hash, ResourceManager::ResourceType::File, [sprite](const ResourceManager::ResourceInfoRef& data)
             {
-                // TODO, parse sprite data
                 BufferReader reader(std::get<std::vector<unsigned char>>(data->Data));
 
                 reader.Read<uint32_t>();

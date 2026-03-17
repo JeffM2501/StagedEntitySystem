@@ -6,16 +6,15 @@
 #include "TransformComponent.h"
 #include "SpriteManager.h"
 
+#include "components/data/ComponentData.h"
+
 struct NPCComponent : public EntitySystem::EntityComponent
 {
     DECLARE_SIMPLE_COMPONENT(NPCComponent);
 
-    float Size = 20;
-    Color Tint = BLUE;
+    Components::NPCComponentData Data;
+
     double LastUpdateTime = 0;
-
-    SpriteManager::SpriteInstance Sprite;
-
     void Update();
     void OnAwake() override;
     bool OnDataRead(BufferReader& buffer) override;

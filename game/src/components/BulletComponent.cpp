@@ -8,8 +8,8 @@
 
 void BulletComponent::Update()
 {
-    Lifetime -= GetDeltaTime();
-    if (Lifetime < 0)
+    Data.Lifetime -= GetDeltaTime();
+    if (Data.Lifetime < 0)
     {
         EntitySystem::RemoveEntity(EntityID);
         return;
@@ -21,8 +21,8 @@ void BulletComponent::Update()
         transform->Position += transform->Velocity * GetDeltaTime();
     }
 
-    Sprite.Rotation += 1000 * GetDeltaTime() * SpinDir;
-    Sprite.Rotation = fmodf(Sprite.Rotation, 360);
+    Data.Sprite.Rotation += 1000 * GetDeltaTime() * SpinDir;
+    Data.Sprite.Rotation = fmodf(Data.Sprite.Rotation, 360);
 }
 
 void BulletComponent::OnAwake()
@@ -32,13 +32,7 @@ void BulletComponent::OnAwake()
 
 bool BulletComponent::OnDataRead(BufferReader& buffer)
 {
-    Size = buffer.Read<float>();
-    Damage = buffer.Read<float>();
-    Lifetime = buffer.Read<float>();
-    Tint = buffer.ReadColor();
-
-    Sprite = SpriteManager::LoadFromBuffer(buffer);
-
+    Data.Read(buffer);
     TraceLog(LOG_INFO, "Loaded BulletComponent for entity %zu", EntityID);
     return true;
 }
