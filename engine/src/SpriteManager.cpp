@@ -81,7 +81,7 @@ namespace SpriteManager
     {
         auto hash = buffer.Read<size_t>();
         SpriteInstance instance = LoadResoruce(hash);
-        instance.CurrentFrame = buffer.Read<uint32_t>();
+        instance.CurrentFrame = buffer.Read<int32_t>();
         instance.Rotation = buffer.Read<float>();
 
         return instance;

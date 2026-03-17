@@ -10,7 +10,6 @@
 #include "ComponentTasks.h"
 #include "TextureManager.h"
 #include "ResourceManager.h"
-#include "EntityReader.h"
 
 #include "GameInfo.h"
 
@@ -29,6 +28,8 @@
 #include "tasks/GUI.h"
 
 #include <atomic>
+
+#include "external/rprand.h"
 
 // global stuff
 bool UseInterpolateNPCs = true;

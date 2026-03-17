@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "codegen": {
+      "commandName": "Project",
+      "commandLineArgs": "c++ C:\\Users\\jeffm\\Desktop\\StagedEntitySystem\\schemas\\components.schema C:\\Users\\jeffm\\Desktop\\StagedEntitySystem\\databuilder\\include"
+    }
+  }
+}

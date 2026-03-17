@@ -2,7 +2,9 @@
 
 
 function platform_defines()
-     filter {"options:backend=GLFW"}
+    defines {"SUPPORT_SCREEN_CAPTURE=0"}
+
+    filter {"options:backend=GLFW"}
         defines{"PLATFORM_DESKTOP"}
 
     filter {"options:backend=RLFW"}

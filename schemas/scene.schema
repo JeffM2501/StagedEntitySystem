@@ -1,0 +1,17 @@
+namespace Scene
+
+include "components.schema"
+
+struct Entity
+{
+    s64 ID = -1;
+    Component[] Components;
+}
+
+asset Scene
+{
+    <NoSerialize>
+    string[] PrefabPreloads; 
+
+    Entity[] Entities;
+}

@@ -100,6 +100,14 @@ void ProcessPNGFile(const std::filesystem::path& inPath)
     fs::copy_file(inPath, outputPath, fs::copy_options::overwrite_existing);
 }
 
+// TODO
+// codegen json schema
+// codegen simple serializes
+/*
+    Schema needs to codegen
+        Json Reader/Writer
+*/
+
 int main(int argc, char* argv[])
 {
     ComponentSerialization::SetupSerializers();

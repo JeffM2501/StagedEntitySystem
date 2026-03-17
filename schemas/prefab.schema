@@ -1,0 +1,16 @@
+namespace Scene
+
+include "components.schema"
+include "scene.schmea"
+
+struct PrefabInfo
+{
+    bool Spawnable = false;
+}
+
+asset Prefab
+{
+    PrefabInfo Info;
+
+    Entity[] Entities;
+}
