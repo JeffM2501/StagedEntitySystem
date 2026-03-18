@@ -18,7 +18,7 @@ void BulletComponent::Update()
     auto transform = GetEntityComponent<TransformComponent>();
     if (transform)
     {
-        transform->Position += transform->Velocity * GetDeltaTime();
+        transform->Data.Position += transform->Data.Velocity * GetDeltaTime();
     }
 
     Data.Sprite.Rotation += 1000 * GetDeltaTime() * SpinDir;

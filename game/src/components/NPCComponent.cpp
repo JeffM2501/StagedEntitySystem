@@ -9,35 +9,35 @@ bool MoveEntity(TransformComponent& entity, float size, Vector2 delta, const Bou
 {
     bool hit = false;
 
-    Vector2 newPos = entity.Position + delta;
+    Vector2 newPos = entity.Data.Position + delta;
 
     if (newPos.x > bounds.Max.x - size)
     {
         newPos.x = bounds.Max.x - size;
-        entity.Velocity.x *= -1;
+        entity.Data.Velocity.x *= -1;
         hit = true;
     }
     else if (newPos.x < bounds.Min.x + size)
     {
         newPos.x = bounds.Min.x + size;
-        entity.Velocity.x *= -1;
+        entity.Data.Velocity.x *= -1;
         hit = true;
     }
 
     if (newPos.y > bounds.Max.y - size)
     {
         newPos.y = bounds.Max.y - size;
-        entity.Velocity.y *= -1;
+        entity.Data.Velocity.y *= -1;
         hit = true;
     }
     else if (newPos.y < bounds.Min.y + size)
     {
         newPos.y = bounds.Min.y + size;
-        entity.Velocity.y *= -1;
+        entity.Data.Velocity.y *= -1;
         hit = true;
     }
 
-    entity.Position = newPos;
+    entity.Data.Position = newPos;
     return hit;
 }
 
@@ -52,7 +52,7 @@ void NPCComponent::Update()
     {
         float realSize = Data.Sprite.SpriteRef->GetFrameRect(Data.Sprite.CurrentFrame).width * Data.Sprite.Scale;
         float delta = TaskManager::GetFixedDeltaTime();
-        MoveEntity(*transform, realSize*0.5f, transform->Velocity * delta, WorldBounds.load());
+        MoveEntity(*transform, realSize*0.5f, transform->Data.Velocity * delta, WorldBounds.load());
         LastUpdateTime = GetFrameStartTime();
     }
 }

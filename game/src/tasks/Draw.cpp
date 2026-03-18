@@ -21,7 +21,7 @@ void DrawTask::Tick()
             auto transform = player.GetEntityComponent<TransformComponent>();
             if (transform)
             {
-                player.Sprite.Draw(transform->Position, WHITE);
+                player.Data.Sprite.Draw(transform->Data.Position, WHITE);
             }
         });
 
@@ -30,7 +30,7 @@ void DrawTask::Tick()
             auto transform = bullet.GetEntityComponent<TransformComponent>();
             if (transform)
             {
-                bullet.Data.Sprite.Draw(transform->Position, bullet.Data.Tint);
+                bullet.Data.Sprite.Draw(transform->Data.Position, bullet.Data.Tint);
             }
         });
     PresentationManager::EndLayer();
@@ -42,9 +42,9 @@ void DrawTask::Tick()
             auto transform = npc.GetEntityComponent<TransformComponent>();
             if (transform)
             {
-                Vector2 interpPos = transform->Position - Vector2(npc.Data.Size, npc.Data.Size);
+                Vector2 interpPos = transform->Data.Position - Vector2(npc.Data.Size, npc.Data.Size);
                 if (UseInterpolateNPCs)
-                    interpPos += transform->Velocity * float(now - npc.LastUpdateTime);
+                    interpPos += transform->Data.Velocity * float(now - npc.LastUpdateTime);
 
                 npc.Data.Sprite.Scale = npc.Data.Size / 2.0f;
                 npc.Data.Sprite.Draw(interpPos, npc.Data.Tint);

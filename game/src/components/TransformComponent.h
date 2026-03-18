@@ -1,9 +1,7 @@
 #pragma once
 
-#include "raylib.h"
-#include "raymath.h"
-
 #include "EntitySystem.h"
+#include "components/data/ComponentData.h"
 
 struct TransformComponent : public EntitySystem::EntityComponent
 {
@@ -11,17 +9,13 @@ struct TransformComponent : public EntitySystem::EntityComponent
 
     bool OnDataRead(BufferReader& buffer) override
     {
-        Position.x = buffer.Read<float>();
-        Position.y = buffer.Read<float>();
-        Velocity.x = buffer.Read<float>();
-        Velocity.y = buffer.Read<float>();
+        Data.Read(buffer);
 
         TraceLog(LOG_INFO, "Loaded Transform for entity %zu", EntityID);
 
         return true;
     }
 
-    Vector2 Position = Vector2Zeros;
-    Vector2 Velocity = Vector2Zeros;
+    Components::TransformComponentData Data;
 };
 

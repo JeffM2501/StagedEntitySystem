@@ -1,8 +1,8 @@
 #pragma once
 
-#include "raylib.h"
-
 #include "EntitySystem.h"
+
+#include "components/data/ComponentData.h"
 
 struct PlayerSpawnComponent : public EntitySystem::EntityComponent
 {
@@ -10,8 +10,8 @@ struct PlayerSpawnComponent : public EntitySystem::EntityComponent
 
     double LastUpdateTime = 0;
 
-    size_t PlayerPrefab = 0;
+    Components::PlayerSpawnComponentData Data;
 
     void OnAwake() override;
-    bool OnDataRead(BufferReader& buffer);
+    bool OnDataRead(BufferReader& buffer) override;
 };

@@ -1,12 +1,7 @@
 #pragma once
 #pragma once
 
-#include "raylib.h"
-#include "SpriteManager.h"
-
 #include "EntitySystem.h"
-#include "TransformComponent.h"
-
 #include "components/data/ComponentData.h"
 
 struct BulletComponent : public EntitySystem::EntityComponent

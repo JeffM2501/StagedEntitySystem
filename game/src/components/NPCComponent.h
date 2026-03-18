@@ -1,11 +1,6 @@
 #pragma once
 
-#include "raylib.h"
-
 #include "EntitySystem.h"
-#include "TransformComponent.h"
-#include "SpriteManager.h"
-
 #include "components/data/ComponentData.h"
 
 struct NPCComponent : public EntitySystem::EntityComponent

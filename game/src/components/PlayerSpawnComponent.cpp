@@ -7,18 +7,18 @@ void PlayerSpawnComponent::OnAwake()
     auto transform = GetEntityComponent<TransformComponent>();
     if (transform)
     {
-        Vector2 pos = transform->Position;
+        Vector2 pos = transform->Data.Position;
 
-        PrefabReader.ReadEntitiesFromResource(PlayerPrefab, [pos](std::span<size_t> entities)
+        PrefabReader.ReadEntitiesFromResource(Data.PlayerPrefab, [pos](std::span<size_t> entities)
             {
-                EntitySystem::GetEntityComponent<TransformComponent>(entities[0])->Position = pos;
+                EntitySystem::GetEntityComponent<TransformComponent>(entities[0])->Data.Position = pos;
             });
     }
 }
 
 bool PlayerSpawnComponent::OnDataRead(BufferReader& buffer)
 {
-    PlayerPrefab = buffer.Read<size_t>();
+    Data.Read(buffer);
 
     TraceLog(LOG_INFO, "Loaded PlayerSpawnComponent for entity %zu", EntityID);
     return true;

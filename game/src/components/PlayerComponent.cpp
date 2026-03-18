@@ -11,16 +11,7 @@ void PlayerComponent::OnAwake()
 
 bool PlayerComponent::OnDataRead(BufferReader& buffer)
 {
-    Size = buffer.Read<float>();
-    Health = buffer.Read<float>();
-    PlayerSpeed = buffer.Read<float>();
-    ReloadTime = buffer.Read<float>();
-    BulletPrefab = buffer.Read<size_t>();
-    ShotSpread = buffer.Read<float>();
-    ShotSpeedMultiplyer = buffer.Read<float>();
-    ShotSpeedVariance = buffer.Read<float>();
-
-    Sprite = SpriteManager::LoadFromBuffer(buffer);
+    Data.Read(buffer);
 
     TraceLog(LOG_INFO, "Loaded PlayerComponent for entity %zu", EntityID);
     return true;
@@ -30,26 +21,26 @@ void PlayerComponent::Update()
 {
     auto transform = GetEntityComponent<TransformComponent>();
     {
-        transform->Position += Input * PlayerSpeed * GetDeltaTime();
+        transform->Data.Position += Input * Data.PlayerSpeed * GetDeltaTime();
 
         LastShotTime += GetDeltaTime();
         if (ShootThisFrame)
         {
-            if (LastShotTime > ReloadTime)
+            if (LastShotTime > Data.ReloadTime)
             {
                 LastShotTime = 0;
 
-                Vector2 pos = transform->Position;
+                Vector2 pos = transform->Data.Position;
 
-                PrefabReader.ReadEntitiesFromResource(BulletPrefab, [pos, this](std::span<size_t> entities)
+                PrefabReader.ReadEntitiesFromResource(Data.BulletPrefab, [pos, this](std::span<size_t> entities)
                     {
                         auto bulletTransform = EntitySystem::GetEntityComponent<TransformComponent>(entities[0]);
                         if (bulletTransform)
                         {
-                            bulletTransform->Position = pos;
-                            float speed = PlayerSpeed * ShotSpeedMultiplyer + float(GetRandomValue(0, int(PlayerSpeed * ShotSpeedVariance)));
+                            bulletTransform->Data.Position = pos;
+                            float speed = Data.PlayerSpeed * Data.ShotSpeedMultiplyer + float(GetRandomValue(0, int(Data.PlayerSpeed * Data.ShotSpeedVariance)));
 
-                            bulletTransform->Velocity = Vector2(speed, float(GetRandomValue(int(-ShotSpread), int(ShotSpread)))) + (Input * PlayerSpeed);
+                            bulletTransform->Data.Velocity = Vector2(speed, float(GetRandomValue(int(-Data.ShotSpread), int(Data.ShotSpread)))) + (Input * Data.PlayerSpeed);
                         }
                     });
             }
