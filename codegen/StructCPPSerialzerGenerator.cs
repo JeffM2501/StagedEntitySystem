@@ -6,7 +6,7 @@ using System.Text;
 
 namespace codegen
 {
-    internal class StructCPPClassGenerator : ICppClassGenerator
+    internal class StructCPPClassGenerator : ICppJsonSerializerClassGenerator
     {
         public void OutputClassInfo(StreamWriter writer, FileClasses classes)
         {
@@ -17,7 +17,7 @@ namespace codegen
 
                 foreach (var field in c.Fields)
                 {
-                    ComponentCPPClassGenerator.WriteFieldSerializer(field, classes, writer);
+                    ComponentCPPJsonSerialzerClassGenerator.WriteFieldSerializer(field, classes, writer);
                 }
                 writer.WriteLine("}");
                 writer.WriteLine();

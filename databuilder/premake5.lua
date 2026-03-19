@@ -43,4 +43,6 @@ project (baseName)
     includedirs { "include" }
     includedirs { "../rapidjson/include" }
     includedirs { "../engine/include" }
+
+    link_raylib()
 -- To link to a lib use link_to("LIB_FOLDER_NAME")

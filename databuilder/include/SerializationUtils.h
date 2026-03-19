@@ -8,6 +8,8 @@
 
 #include "CRC64.h"
 
+#include "raylib.h"
+
 
 class BufferWriter
 {
@@ -20,6 +22,13 @@ public:
         Buffer.insert(Buffer.end(),
             reinterpret_cast<const uint8_t*>(&value),
             reinterpret_cast<const uint8_t*>(&value) + sizeof(T));
+    }
+
+    template<>
+    inline void Write(const Vector2& value)
+    {
+        Write(value.x);
+        Write(value.y);
     }
 
     template<typename T>
@@ -90,6 +99,16 @@ inline void SerializeNumber(std::string_view name, T defaultValue, const rapidjs
 {
     T binValue = defaultValue;
     ReadValueNumber(name, binValue, value);
+    out.Write(binValue);
+}
+
+
+template<>
+inline void SerializeNumber(std::string_view name, Vector2 defaultValue, const rapidjson::Value& value, BufferWriter& out)
+{
+    Vector2 binValue = defaultValue;
+    ReadValueNumber("x", binValue.x, value);
+    ReadValueNumber("y", binValue.x, value);
     out.Write(binValue);
 }
 

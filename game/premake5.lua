@@ -42,8 +42,6 @@ project (workspaceName)
     includedirs { "src" }
     includedirs { "include" }
 
-
-
     link_raylib()
     link_to("engine")
 -- To link to a lib use link_to("LIB_FOLDER_NAME")

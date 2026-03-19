@@ -8,7 +8,7 @@ namespace codegen
 {
     class Program
     {
-        static void ProcessSchemaFile(string? file, string outputDir, string outputType)
+        static void ProcessSchemaFile(string? file, string jsonOutputDir, string binaryOutputDir, string outputType)
         {
             FileClasses fileClasses = new FileClasses();
             fileClasses.Parse(file);
@@ -20,16 +20,17 @@ namespace codegen
                 return;
             }
 
-            string outPath = Path.Combine(outputDir, outputFileName + ".h");
+            string jsonOutPath = Path.Combine(jsonOutputDir, outputFileName + ".h");
+            string binaryOutPath = Path.Combine(binaryOutputDir, outputFileName + "Data_Generated.h");
 
             switch (outputType)
             {
                 case "c++":
-                    CPPGenerator.Generate(fileClasses, outPath);
+                    CPPGenerator.Generate(fileClasses, jsonOutPath, binaryOutPath);
                     break;
 
                 default:
-                    Console.WriteLine("Output mode " + outputDir + " is unknown");
+                    Console.WriteLine("Output mode " + jsonOutputDir + " is unknown");
                     break;
             }
         }
@@ -44,23 +45,24 @@ namespace codegen
 
             string OutputType = args[0];
             string SchemaDir = args[1];
-            string OutputDir = args[2];
+            string JsonOutputDir = args[2];
+            string BinaryOutputDir = args[3];
 
-            if (string.IsNullOrEmpty(OutputDir) || !Directory.Exists(OutputDir))
+            if (string.IsNullOrEmpty(JsonOutputDir) || !Directory.Exists(JsonOutputDir))
             {
-                Console.WriteLine("Output Dir " + OutputDir + " does not exit");
+                Console.WriteLine("Output Dir " + JsonOutputDir + " does not exit");
                 return;
             }
 
             if (File.Exists(SchemaDir))
             {
-                ProcessSchemaFile(SchemaDir, OutputDir, OutputType);
+                ProcessSchemaFile(SchemaDir, JsonOutputDir, BinaryOutputDir, OutputType);
             }
             else if (Directory.Exists(SchemaDir)) 
             {
                 foreach (var file in Directory.GetFiles(SchemaDir, "*.schema"))
                 {
-                    ProcessSchemaFile(file, OutputDir, OutputType);
+                    ProcessSchemaFile(file, JsonOutputDir, BinaryOutputDir, OutputType);
                 }
             }
             else

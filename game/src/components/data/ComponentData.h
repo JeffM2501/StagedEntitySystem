@@ -28,7 +28,6 @@ namespace Components
         Color Tint = { 255,255,0,255 };
         SpriteManager::SpriteInstance Sprite;
 
-
         void Read(BufferReader& buffer)
         {
             Size = buffer.Read<float>();

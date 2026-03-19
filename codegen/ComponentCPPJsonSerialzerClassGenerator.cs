@@ -6,7 +6,7 @@ using System.Text;
 
 namespace codegen
 {
-    internal class ComponentCPPClassGenerator : ICppClassGenerator
+    internal class ComponentCPPJsonSerialzerClassGenerator : ICppJsonSerializerClassGenerator
     {
         public void OutputClassInfo(StreamWriter writer, FileClasses classes)
         {

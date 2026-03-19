@@ -7,9 +7,14 @@ using System.Text;
 
 namespace codegen
 {
-    internal interface ICppClassGenerator
+    internal interface ICppJsonSerializerClassGenerator
     {
         public void OutputHeaderInfo(StreamWriter writer, FileClasses classes);
+        public void OutputClassInfo(StreamWriter writer, FileClasses classes);
+    }
+
+    internal interface ICppBinarySerializerClassGenerator
+    {
         public void OutputClassInfo(StreamWriter writer, FileClasses classes);
     }
 
@@ -30,21 +35,22 @@ namespace codegen
             }
         }
 
-        internal static Dictionary<string, ICppClassGenerator> Generators = new Dictionary<string, ICppClassGenerator>();
+        internal static Dictionary<string, ICppJsonSerializerClassGenerator> JsonGenerators = new Dictionary<string, ICppJsonSerializerClassGenerator>();
+        internal static Dictionary<string, ICppBinarySerializerClassGenerator> BinaryGenerators = new Dictionary<string, ICppBinarySerializerClassGenerator>();
+
         internal static void Init()
         {
-            Generators.Add("message", new MessageCPPClassGenrator());
-            Generators.Add("struct", new StructCPPClassGenerator());
-            Generators.Add("component", new ComponentCPPClassGenerator());
-        }
-      
-        public static void Generate(FileClasses fileClasses, string outputFile)
-        {
-            if (Generators.Count == 0)
-                Init();
+            JsonGenerators.Add("message", new MessageCPPSerialzerClassGenrator());
+            JsonGenerators.Add("struct", new StructCPPClassGenerator());
+            JsonGenerators.Add("component", new ComponentCPPJsonSerialzerClassGenerator());
 
-            File.Delete(outputFile);
-            var writer = File.OpenWrite(outputFile);
+            BinaryGenerators.Add("component", new ComponentCPPBinarySerializerClassGenerator());
+        }
+
+        public static void GenerateJsonSerializer(FileClasses fileClasses, string jsonOutputFile)
+        {
+            File.Delete(jsonOutputFile);
+            var writer = File.OpenWrite(jsonOutputFile);
             if (!writer.CanWrite)
                 return;
 
@@ -55,9 +61,9 @@ namespace codegen
 
             foreach ((var type, var list) in fileClasses.Classes)
             {
-                if (Generators.ContainsKey(type))
+                if (JsonGenerators.ContainsKey(type))
                 {
-                    Generators[type].OutputHeaderInfo(textWriter, fileClasses);
+                    JsonGenerators[type].OutputHeaderInfo(textWriter, fileClasses);
                 }
             }
 
@@ -69,9 +75,9 @@ namespace codegen
 
             foreach ((var type, var list) in fileClasses.Classes)
             {
-                if (Generators.ContainsKey(type))
+                if (JsonGenerators.ContainsKey(type))
                 {
-                    Generators[type].OutputClassInfo(textWriter, fileClasses);
+                    JsonGenerators[type].OutputClassInfo(textWriter, fileClasses);
                 }
             }
 
@@ -82,6 +88,54 @@ namespace codegen
 
             textWriter.Flush();
             textWriter.Close();
+        }
+
+        public static void GenerateBinarySerializer(FileClasses fileClasses, string outputFile)
+        {
+            File.Delete(outputFile);
+            var writer = File.OpenWrite(outputFile);
+            if (!writer.CanWrite)
+                return;
+
+            StreamWriter textWriter = new StreamWriter(writer);
+
+            textWriter.WriteLine("#pragma once");
+
+            textWriter.WriteLine("#include \"BufferReader.h\"");
+            textWriter.WriteLine("#include \"SpriteManager.h\"");
+            textWriter.WriteLine("#include \"raymath.h\"");
+            textWriter.WriteLine();
+
+            if (!string.IsNullOrEmpty(fileClasses.Namespace))
+            {
+                textWriter.WriteLine("namespace " + fileClasses.Namespace);
+                textWriter.WriteLine("{");
+            }
+
+            foreach ((var type, var list) in fileClasses.Classes)
+            {
+                if (BinaryGenerators.ContainsKey(type))
+                {
+                    BinaryGenerators[type].OutputClassInfo(textWriter, fileClasses);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(fileClasses.Namespace))
+            {
+                textWriter.WriteLine("} //" + fileClasses.Namespace);
+            }
+
+            textWriter.Flush();
+            textWriter.Close();
+        }
+
+        public static void Generate(FileClasses fileClasses, string jsonOutputFile, string binaryOutputDir)
+        {
+            if (JsonGenerators.Count == 0)
+                Init();
+
+            GenerateJsonSerializer(fileClasses, jsonOutputFile);
+            GenerateBinarySerializer(fileClasses, binaryOutputDir);
         }
     }
 }

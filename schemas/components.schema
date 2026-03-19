@@ -9,7 +9,10 @@ struct SpriteReference
 
 component TransformComponent
 {
+    <NativeType = Vector2>
     float[2] Position = {0,0};
+
+    <NativeType = Vector2>
     float[2] Velocity = {0,0};
 }
 
@@ -52,8 +55,12 @@ component PlayerSpawnComponent
 
 component NPCSpawnComponent
 {
-    float[2] Interval = {1,3};
-    float[2] Velocity = {20,200};
+    foat MinInterval = 1;
+    float MaxInterval = 3;
+
+    float MinVelocity = 20;
+    float MaxVelocity = 200l
+
     int32 MaxSpawnCount = 100;
     AssetReference NPCPrefab;
 }

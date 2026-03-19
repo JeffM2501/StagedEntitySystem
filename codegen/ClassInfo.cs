@@ -15,7 +15,6 @@ namespace codegen
         public string DefaultValue = string.Empty;
 
         public Dictionary<string, string> Metadata = new Dictionary<string, string>();
-
     }
 
     internal class ClassInfo
