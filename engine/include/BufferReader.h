@@ -26,6 +26,20 @@ public:
         return value;
     }
 
+    template<>
+    Color Read()
+    {
+        Color c = { Read<uint8_t>(), Read<uint8_t>(), Read<uint8_t>(), Read<uint8_t>() };
+        return c;
+    }
+
+    template<>
+    Vector2 Read()
+    {
+        Vector2 c = { Read<float>(), Read<float>()};
+        return c;
+    }
+
     Color ReadColor()
     {
         Color c = { Read<uint8_t>(), Read<uint8_t>(), Read<uint8_t>(), Read<uint8_t>() };

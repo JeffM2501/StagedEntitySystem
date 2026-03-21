@@ -15,6 +15,9 @@ namespace codegen
             if (field.FieldTypename == "SpriteReference")
                 return "SpriteInstance";
 
+            if (field.FieldTypename == "int32")
+                return "int32_t";
+
             return field.FieldTypename;
         }
 
@@ -31,7 +34,7 @@ namespace codegen
             }
             else if (field.FieldTypename == "SpriteReference")
             {
-                writer.WriteLine($"\tSpriteInstance {field.Name};");
+                writer.WriteLine($"\tSpriteManager::SpriteInstance {field.Name};");
             }
             else
             {
@@ -50,8 +53,7 @@ namespace codegen
             {
                 if (field.Metadata["NativeType"] == "Vector2")
                 {
-                    writer.WriteLine($"\t\t{field.Metadata["NativeType"]} {field.Name}.x = buffer.Read<float>();");
-                    writer.WriteLine($"\t\t{field.Metadata["NativeType"]} {field.Name}.y = buffer.Read<float>();");
+                    writer.WriteLine($"\t\t{field.Name} = buffer.Read<Vector2>();");
                 }
             }
             else if (field.FieldTypename == "SpriteReference")
@@ -86,18 +88,9 @@ namespace codegen
                 }
                 writer.WriteLine("\t}");
 
-                writer.WriteLine("}");
+                writer.WriteLine("};");
                 writer.WriteLine();
             }
-
-            writer.WriteLine($"inline void RegisterCompoenents()");
-            writer.WriteLine("{");
-            foreach (var c in classes.Classes["component"])
-            {
-                writer.WriteLine($"\tComponentSerialization::Register(\"{c.Name}\",  Serialize{c.Name});");
-
-            }
-            writer.WriteLine("}");
         }
     }
 }

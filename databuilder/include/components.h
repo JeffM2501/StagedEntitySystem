@@ -55,8 +55,10 @@ inline void SerializePlayerSpawnComponent(const rapidjson::Value& json, BufferWr
 
 inline void SerializeNPCSpawnComponent(const rapidjson::Value& json, BufferWriter& out)
 {
-	SerializeNumberArray<float>("Interval", {1,3}, json, out);
-	SerializeNumberArray<float>("Velocity", {20,200}, json, out);
+	SerializeNumber<float>("MinInterval", 1, json, out);
+	SerializeNumber<float>("MaxInterval", 3, json, out);
+	SerializeNumber<float>("MinVelocity", 20, json, out);
+	SerializeNumber<float>("MaxVelocity", 200l, json, out);
 	SerializeNumber<int32_t>("MaxSpawnCount", 100, json, out);
 	SeralizeAssetReference("NPCPrefab", json, out);
 }

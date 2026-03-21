@@ -55,7 +55,7 @@ component PlayerSpawnComponent
 
 component NPCSpawnComponent
 {
-    foat MinInterval = 1;
+    float MinInterval = 1;
     float MaxInterval = 3;
 
     float MinVelocity = 20;
