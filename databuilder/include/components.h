@@ -12,8 +12,8 @@ inline void SerializeSpriteReference(const rapidjson::Value& json, BufferWriter&
 
 inline void SerializeTransformComponent(const rapidjson::Value& json, BufferWriter& out)
 {
-	SerializeNumberArray<float>("Position", {0,0}, json, out);
-	SerializeNumberArray<float>("Velocity", {0,0}, json, out);
+	SerializeNumber<Vector2>("Position", Vector2{0, 0}, json, out);
+	SerializeNumber<Vector2>("Velocity", Vector2{0, 0}, json, out);
 }
 
 inline void SerializePlayerComponent(const rapidjson::Value& json, BufferWriter& out)
@@ -35,7 +35,7 @@ inline void SerializeBulletComponent(const rapidjson::Value& json, BufferWriter&
 	SerializeNumber<float>("Size", 4, json, out);
 	SerializeNumber<float>("Damage", 10, json, out);
 	SerializeNumber<float>("Lifetime", 1, json, out);
-	SerializeColor("Tint", {255,255,0,255}, json, out);
+	SerializeNumber<Color>("Tint", {255,255,0,255}, json, out);
 	if (json.HasMember("Sprite"))
 		SerializeSpriteReference(json["Sprite"], out);
 }
@@ -43,7 +43,7 @@ inline void SerializeBulletComponent(const rapidjson::Value& json, BufferWriter&
 inline void SerializeNPCComponent(const rapidjson::Value& json, BufferWriter& out)
 {
 	SerializeNumber<float>("Size", 20, json, out);
-	SerializeColor("Tint", {0, 0, 255, 255}, json, out);
+	SerializeNumber<Color>("Tint", {0, 0, 255, 255}, json, out);
 	if (json.HasMember("Sprite"))
 		SerializeSpriteReference(json["Sprite"], out);
 }

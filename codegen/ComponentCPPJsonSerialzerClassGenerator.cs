@@ -33,6 +33,22 @@ namespace codegen
             writer.WriteLine("}");
         }
 
+        internal static string GetFieldDefaultValue(FieldInfo field)
+        {
+            if(field.FieldTypename == "Vector2")
+            {
+                if (string.IsNullOrEmpty(field.DefaultValue))
+                {
+                    return "Vector2Zeroes";
+                }
+
+                var split = field.DefaultValue.TrimStart('{').TrimEnd('}').Split(',');
+                return $"Vector2{{{split[0]}, {split[1]}}}";
+            }
+            
+            return field.DefaultValue;
+        }
+
         internal static void WriteFieldSerializer(FieldInfo field, FileClasses classes, StreamWriter writer)
         {
             string baseTypeName = GetFieldBaseType(field.FieldTypename);
@@ -42,11 +58,15 @@ namespace codegen
             }
             else if (IsNumberType(field.FieldTypename))
             {
-                writer.WriteLine($"\tSerializeNumber<{GetCPPNumberType(baseTypeName)}>(\"{field.Name}\", {field.DefaultValue}, json, out);");
+                writer.WriteLine($"\tSerializeNumber<{GetCPPNumberType(baseTypeName)}>(\"{field.Name}\", {GetFieldDefaultValue(field)}, json, out);");
             }
             else if (IsAssetRef(field.FieldTypename))
             {
                 writer.WriteLine($"\tSeralizeAssetReference(\"{field.Name}\", json, out);");
+            }
+            else if (IsColor(field.FieldTypename))
+            {
+                writer.WriteLine($"\tSerializeColor(\"{field.Name}\", {field.DefaultValue}, json, out);");
             }
             else if (IsColor(field.FieldTypename))
             {
@@ -85,7 +105,10 @@ namespace codegen
                 return true;
             if (typeName.Contains("int32"))
                 return true;
-
+            if (typeName.Contains("Vector2"))
+                return true;
+            if (typeName.Contains("Color"))
+                return true;
             return false;
         }
 
@@ -93,8 +116,10 @@ namespace codegen
         {
             if (typeName.Contains("float"))
                 return "float";
+            if (typeName.Contains("int"))
+                return "int32_t";
 
-            return "int32_t";
+            return typeName;
         }
 
         private static bool IsAssetRef(string typeName)

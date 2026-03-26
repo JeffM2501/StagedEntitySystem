@@ -6,7 +6,6 @@
 
 void PlayerComponent::OnAwake()
 {
-   // Transform.Set(GetEntityComponent<TransformComponent>());
 }
 
 bool PlayerComponent::OnDataRead(BufferReader& buffer)

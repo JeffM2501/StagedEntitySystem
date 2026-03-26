@@ -10,10 +10,10 @@ struct SpriteReference
 component TransformComponent
 {
     <NativeType = Vector2>
-    float[2] Position = {0,0};
+    Vector2 Position = {0,0};
 
     <NativeType = Vector2>
-    float[2] Velocity = {0,0};
+    Vector2 Velocity = {0,0};
 }
 
 component PlayerComponent
