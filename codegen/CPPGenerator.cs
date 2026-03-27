@@ -35,6 +35,59 @@ namespace codegen
             }
         }
 
+        internal static bool IsArrayType(string typeName)
+        {
+            return typeName.Contains("[") && typeName.Contains("]");
+        }
+
+        internal static string GetFieldBaseType(string typeName)
+        {
+            if (IsArrayType(typeName))
+            {
+                return typeName.Substring(0, typeName.IndexOf('['));
+            }
+            return typeName;
+        }
+
+        internal static bool IsNumberType(string typeName)
+        {
+            if (typeName.Contains("float"))
+                return true;
+            if (typeName.Contains("int32"))
+                return true;
+            if (typeName.Contains("Vector2"))
+                return true;
+            if (typeName.Contains("Color"))
+                return true;
+            return false;
+        }
+
+        internal static string GetCPPNumberType(string typeName)
+        {
+            if (typeName.Contains("float"))
+                return "float";
+            if (typeName.Contains("int"))
+                return "int32_t";
+
+            return typeName;
+        }
+
+        internal static bool IsAssetRef(string typeName)
+        {
+            if (typeName.Contains("AssetReference"))
+                return true;
+
+            return false;
+        }
+
+        internal static bool IsColor(string typeName)
+        {
+            if (typeName.Contains("Color"))
+                return true;
+
+            return false;
+        }
+
         internal static Dictionary<string, ICppJsonSerializerClassGenerator> JsonGenerators = new Dictionary<string, ICppJsonSerializerClassGenerator>();
         internal static Dictionary<string, ICppBinarySerializerClassGenerator> BinaryGenerators = new Dictionary<string, ICppBinarySerializerClassGenerator>();
 

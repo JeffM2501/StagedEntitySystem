@@ -40,6 +40,18 @@ public:
         return c;
     }
 
+    template<typename T>
+    size_t ReadArray(std::vector<T>& container)
+    {
+        size_t size = Read<size_t>();
+        for (size_t i = 0; i < size; i++)
+        {
+            container.push_back(Read<T>());
+        }
+
+        return size;
+    }
+
     Color ReadColor()
     {
         Color c = { Read<uint8_t>(), Read<uint8_t>(), Read<uint8_t>(), Read<uint8_t>() };

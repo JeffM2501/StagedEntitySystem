@@ -7,14 +7,6 @@ struct GridFrameInfo
     float Height = 0;
 }
 
-struct FrameRectangle
-{
-    float X = 0;
-    float Y = 0;
-    float EWidth = 0;
-    float Height = 0;
-}
-
 enum FrameTypeEnum
 {
     Grid,
@@ -29,7 +21,7 @@ struct FrameTypeInfo
     GridFrameInfo GridInfo;
 
     <dependent Type = List>
-    FrameRectangle[] Frames;
+    Rectangle[] Frames;
 }
 
 asset Sprite

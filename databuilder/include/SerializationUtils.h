@@ -51,11 +51,11 @@ public:
     template<typename T>
     inline void WriteArray(const std::vector<T>& value)
     {
+        Write<size_t>(value.size());
+
         for (auto c : value)
         {
-            Buffer.insert(Buffer.end(),
-                reinterpret_cast<const uint8_t*>(&c),
-                reinterpret_cast<const uint8_t*>(&c) + sizeof(T));
+            Write<T>(c);
         }
     }
 
@@ -296,10 +296,10 @@ inline void SerializeNumber(std::string_view name, Rectangle defaultValue, const
 }
 
 template<typename T>
-inline void SerializeNumberArray(std::string_view name, const std::vector<T>& defaultValue, const rapidjson::Value& value, BufferWriter& out)
+inline void SerializeNumberArray(std::string_view name, const rapidjson::Value& value, BufferWriter& out)
 {
     // Make a mutable copy initialized from the provided default.
-    std::vector<T> binValue = defaultValue;
+    std::vector<T> binValue;
 
     // Create a span over the vector so ReadValueNumberArray can fill it.
     std::span<T> binSpan(binValue);

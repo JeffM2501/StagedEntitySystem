@@ -51,24 +51,24 @@ namespace codegen
 
         internal static void WriteFieldSerializer(FieldInfo field, FileClasses classes, StreamWriter writer)
         {
-            string baseTypeName = GetFieldBaseType(field.FieldTypename);
-            if (IsArrayType(field.FieldTypename))
+            string baseTypeName = CPPGenerator.GetFieldBaseType(field.FieldTypename);
+            if (CPPGenerator.IsArrayType(field.FieldTypename))
             {
-                writer.WriteLine($"\tSerializeNumberArray<{baseTypeName}>(\"{field.Name}\", {field.DefaultValue}, json, out);");
+                writer.WriteLine($"\tSerializeNumberArray<{baseTypeName}>(\"{field.Name}\", json, out);");
             }
-            else if (IsNumberType(field.FieldTypename))
+            else if (CPPGenerator.IsNumberType(field.FieldTypename))
             {
-                writer.WriteLine($"\tSerializeNumber<{GetCPPNumberType(baseTypeName)}>(\"{field.Name}\", {GetFieldDefaultValue(field)}, json, out);");
+                writer.WriteLine($"\tSerializeNumber<{CPPGenerator.GetCPPNumberType(baseTypeName)}>(\"{field.Name}\", {GetFieldDefaultValue(field)}, json, out);");
             }
-            else if (IsAssetRef(field.FieldTypename))
+            else if (CPPGenerator.IsAssetRef(field.FieldTypename))
             {
                 writer.WriteLine($"\tSeralizeAssetReference(\"{field.Name}\", json, out);");
             }
-            else if (IsColor(field.FieldTypename))
+            else if (CPPGenerator.IsColor(field.FieldTypename))
             {
                 writer.WriteLine($"\tSerializeColor(\"{field.Name}\", {field.DefaultValue}, json, out);");
             }
-            else if (IsColor(field.FieldTypename))
+            else if (CPPGenerator.IsColor(field.FieldTypename))
             {
                 writer.WriteLine($"\tSerializeColor(\"{field.Name}\", {field.DefaultValue}, json, out);");
             }
@@ -83,59 +83,6 @@ namespace codegen
                     }
                 }
             }
-        }
-
-        private static bool IsArrayType(string typeName)
-        {
-            return typeName.Contains("[") && typeName.Contains("]");
-        }
-
-        private static string GetFieldBaseType(string typeName)
-        {
-            if (IsArrayType(typeName))
-            {
-                return typeName.Substring(0, typeName.IndexOf('['));
-            }
-            return typeName;
-        }
-
-        private static bool IsNumberType(string typeName)
-        {
-            if (typeName.Contains("float"))
-                return true;
-            if (typeName.Contains("int32"))
-                return true;
-            if (typeName.Contains("Vector2"))
-                return true;
-            if (typeName.Contains("Color"))
-                return true;
-            return false;
-        }
-
-        private static string GetCPPNumberType(string typeName)
-        {
-            if (typeName.Contains("float"))
-                return "float";
-            if (typeName.Contains("int"))
-                return "int32_t";
-
-            return typeName;
-        }
-
-        private static bool IsAssetRef(string typeName)
-        {
-            if (typeName.Contains("AssetReference"))
-                return true;
-
-            return false;
-        }
-
-        private static bool IsColor(string typeName)
-        {
-            if (typeName.Contains("Color"))
-                return true;
-
-            return false;
         }
 
         public void OutputHeaderInfo(StreamWriter writer, FileClasses classes)

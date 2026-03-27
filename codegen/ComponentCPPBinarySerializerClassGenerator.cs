@@ -9,16 +9,16 @@ namespace codegen
     {
         string GetNativeType(FieldInfo field)
         {
-            if (field.FieldTypename == "AssetReference")
+            if (field.FieldTypename.Contains("AssetReference"))
                 return "size_t";
 
-            if (field.FieldTypename == "SpriteReference")
+            if (field.FieldTypename.Contains("SpriteReference"))
                 return "SpriteInstance";
 
-            if (field.FieldTypename == "int32")
+            if (field.FieldTypename.Contains("int32"))
                 return "int32_t";
 
-            return field.FieldTypename;
+            return CPPGenerator.GetFieldBaseType(field.FieldTypename);
         }
 
         internal void WriteFieldData(StreamWriter writer, FieldInfo field)
@@ -47,6 +47,27 @@ namespace codegen
             }
         }
 
+        internal void WriteArrayFieldData(StreamWriter writer, FieldInfo field)
+        {
+            if (field.Metadata.ContainsKey("NativeType"))
+            {
+                field.Metadata["NativeType"] = field.Metadata["NativeType"].Substring(2);
+
+                if (field.Metadata["NativeType"] == "Vector2")
+                {
+                    writer.WriteLine($"\tstd::vector<{field.Metadata["NativeType"]}> {field.Name};");
+                }
+            }
+            else if (field.FieldTypename == "SpriteReference")
+            {
+                writer.WriteLine($"\tstd::vector<SpriteManager::SpriteInstance> {field.Name};");
+            }
+            else
+            {
+                writer.WriteLine($"\tstd::vector<{GetNativeType(field)}> {field.Name};");
+            }
+        }
+
         internal void WriteFieldReader(StreamWriter writer, FieldInfo field)
         {
             if (field.Metadata.ContainsKey("NativeType"))
@@ -66,6 +87,27 @@ namespace codegen
             }
         }
 
+        internal void WriteArrayFieldReader(StreamWriter writer, FieldInfo field)
+        {
+            if (field.Metadata.ContainsKey("NativeType"))
+            {
+                if (field.Metadata["NativeType"] == "Vector2")
+                {
+                    writer.WriteLine($"\t\tbuffer.ReadArray<Vector2>({field.Name});");
+                }
+            }
+            else if (field.FieldTypename == "SpriteReference")
+            {
+                writer.WriteLine($"\t\tatuo {field.Name}_size = buffer.Read<size_t>();");
+                writer.WriteLine($"\t\tfor(size_t i = 0; i < {field.Name}_size; i++)");
+                writer.WriteLine($"\t\t\t{field.Name}.push_back(SpriteManager::LoadFromBuffer(buffer));");
+            }
+            else
+            {
+                writer.WriteLine($"\t\tbuffer.ReadArray<{GetNativeType(field)}>({field.Name});");
+            }
+        }
+
         public void OutputClassInfo(StreamWriter writer, FileClasses classes)
         {
             foreach (var c in classes.Classes["component"])
@@ -76,7 +118,10 @@ namespace codegen
                 // write values
                 foreach (var field in c.Fields)
                 {
-                    WriteFieldData(writer, field);
+                    if (CPPGenerator.IsArrayType(field.FieldTypename))
+                        WriteArrayFieldData(writer, field);
+                    else
+                        WriteFieldData(writer, field);
                 }
                 writer.WriteLine();
 
@@ -84,7 +129,10 @@ namespace codegen
                 writer.WriteLine("\t{");
                 foreach (var field in c.Fields)
                 {
-                    WriteFieldReader(writer, field);
+                    if (CPPGenerator.IsArrayType(field.FieldTypename))
+                        WriteArrayFieldReader(writer, field);
+                    else
+                        WriteFieldReader(writer, field);
                 }
                 writer.WriteLine("\t}");
 
