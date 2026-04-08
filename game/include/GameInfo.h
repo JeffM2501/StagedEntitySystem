@@ -25,7 +25,7 @@ extern size_t BackgroundLayer;
 extern size_t NPCLayer;
 extern size_t PlayerLayer;
 extern size_t GUILayer;
-extern size_t DebugLayer ;
+extern size_t DebugLayer;
 
 extern double LastFrameTime;
 

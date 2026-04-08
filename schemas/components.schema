@@ -20,7 +20,7 @@ component PlayerComponent
 {
     float Size = 10;
     float Health = 100;
-    float PlayerSeed = 100;
+    float PlayerSpeed = 100;
     float ReloadTime = 0.25;
     
     AssetReference BulletPrefab;
@@ -63,4 +63,12 @@ component NPCSpawnComponent
 
     int32 MaxSpawnCount = 100;
     AssetReference NPCPrefab;
+}
+
+component SpriteComponent
+{
+    float Size = 20;
+    Color Tint = {0, 0, 255, 255};
+    bool Collidable = false;
+    SpriteReference Sprite;
 }

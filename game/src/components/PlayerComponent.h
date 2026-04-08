@@ -1,8 +1,7 @@
 #pragma once
 
 #include "EntitySystem.h"
-#include "components/data/ComponentData.h"
-
+#include "components/data/componentsData_Generated.h"
 
 struct PlayerComponent : public EntitySystem::EntityComponent
 {

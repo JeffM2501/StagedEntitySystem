@@ -1,20 +1,16 @@
 #pragma once
-#pragma once
 
 #include "EntitySystem.h"
 #include "components/data/componentsData_Generated.h"
 
-struct BulletComponent : public EntitySystem::EntityComponent
+struct SpriteComponent : public EntitySystem::EntityComponent
 {
-    DECLARE_SIMPLE_COMPONENT(BulletComponent);
+    DECLARE_SIMPLE_COMPONENT(SpriteComponent);
 
-    Components::BulletComponentData Data;
+    Components::SpriteComponentData Data;
 
-    float SpinDir = 1.0f;
     double LastUpdateTime = 0;
-
     void Update();
-
     void OnAwake() override;
     bool OnDataRead(BufferReader& buffer) override;
 };

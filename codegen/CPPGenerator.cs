@@ -88,6 +88,14 @@ namespace codegen
             return false;
         }
 
+        internal static bool IsBool(string typeName)
+        {
+            if (typeName.Contains("bool"))
+                return true;
+
+            return false;
+        }
+
         internal static Dictionary<string, ICppJsonSerializerClassGenerator> JsonGenerators = new Dictionary<string, ICppJsonSerializerClassGenerator>();
         internal static Dictionary<string, ICppBinarySerializerClassGenerator> BinaryGenerators = new Dictionary<string, ICppBinarySerializerClassGenerator>();
 

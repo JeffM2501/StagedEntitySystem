@@ -21,7 +21,7 @@ struct PlayerComponentData
 {
 	float Size = 10;
 	float Health = 100;
-	float PlayerSeed = 100;
+	float PlayerSpeed = 100;
 	float ReloadTime = 0.25;
 	size_t BulletPrefab;
 	float BulletSpreadDelta = 5.0;
@@ -33,7 +33,7 @@ struct PlayerComponentData
 	{
 		Size = buffer.Read<float>();
 		Health = buffer.Read<float>();
-		PlayerSeed = buffer.Read<float>();
+		PlayerSpeed = buffer.Read<float>();
 		ReloadTime = buffer.Read<float>();
 		BulletPrefab = buffer.Read<size_t>();
 		BulletSpreadDelta = buffer.Read<float>();
@@ -102,6 +102,22 @@ struct NPCSpawnComponentData
 		MaxVelocity = buffer.Read<float>();
 		MaxSpawnCount = buffer.Read<int32_t>();
 		NPCPrefab = buffer.Read<size_t>();
+	}
+};
+
+struct SpriteComponentData
+{
+	float Size = 20;
+	Color Tint = {0, 0, 255, 255};
+	bool Collidable = false;
+	SpriteManager::SpriteInstance Sprite;
+
+	void Read(BufferReader& buffer)
+	{
+		Size = buffer.Read<float>();
+		Tint = buffer.Read<Color>();
+		Collidable = buffer.Read<bool>();
+		Sprite = SpriteManager::LoadFromBuffer(buffer);
 	}
 };
 

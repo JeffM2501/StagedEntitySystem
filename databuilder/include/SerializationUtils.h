@@ -25,6 +25,12 @@ public:
     }
 
     template<>
+    inline void Write(const bool& value)
+    {
+        Write<uint8_t>(value ? (uint8_t)1 : uint8_t(0));
+    }
+
+    template<>
     inline void Write(const Vector2& value)
     {
         Write(value.x);
@@ -82,6 +88,17 @@ inline bool ReadColor(uint8_t color[4], const rapidjson::Value& colorValue)
     return false;
 }
 
+inline bool ReadValueBool(std::string_view name, bool& out, const rapidjson::Value& value)
+{
+    auto it = value.FindMember(name.data());
+    if (it != value.MemberEnd() && it->value.IsBool())
+    {
+        out = it->value.GetBool();
+        return true;
+    }
+    return false;
+}
+
 template<typename T>
 inline bool ReadValueNumber(std::string_view name, T& out, const rapidjson::Value& value)
 {
@@ -89,6 +106,18 @@ inline bool ReadValueNumber(std::string_view name, T& out, const rapidjson::Valu
     if (it != value.MemberEnd() && it->value.IsNumber())
     {
         out = static_cast<T>(it->value.Get<T>());
+        return true;
+    }
+    return false;
+}
+
+template<>
+inline bool ReadValueNumber(std::string_view name, uint8_t& out, const rapidjson::Value& value)
+{
+    auto it = value.FindMember(name.data());
+    if (it != value.MemberEnd() && it->value.IsNumber())
+    {
+        out = static_cast<uint8_t>(it->value.GetUint());
         return true;
     }
     return false;
@@ -248,6 +277,13 @@ inline bool ReadValueNumberArray(std::string_view name, std::span<Rectangle> out
     return false;
 }
 
+inline void SerializeBool(std::string_view name, bool defaultValue, const rapidjson::Value& value, BufferWriter& out)
+{
+    bool binValue = defaultValue;
+    ReadValueBool(name, binValue, value);
+    out.Write(binValue);
+}
+
 template<typename T>
 inline void SerializeNumber(std::string_view name, T defaultValue, const rapidjson::Value& value, BufferWriter& out)
 {
@@ -259,11 +295,23 @@ inline void SerializeNumber(std::string_view name, T defaultValue, const rapidjs
 template<>
 inline void SerializeNumber(std::string_view name, Vector2 defaultValue, const rapidjson::Value& value, BufferWriter& out)
 {
-    Vector2 binValue = defaultValue;
-    if (value.HasMember(name.data()))
+    for (const auto& child : value.GetObject())
     {
-        ReadValueNumber("x", binValue.x, value[name.data()]);
-        ReadValueNumber("y", binValue.x, value[name.data()]);
+        auto name = child.name.GetString();
+        if (child.name == name)
+        {
+            if (child.value.IsArray())
+            {
+              
+            }
+        }
+    }
+    Vector2 binValue = defaultValue;
+    const auto member = value.FindMember(name.data());
+    if (member != value.MemberEnd() && member->value.IsArray())
+    {
+        binValue.x = member->value.GetArray()[0].GetFloat();
+        binValue.y = member->value.GetArray()[1].GetFloat();
     }
     out.Write(binValue);
 }
@@ -272,11 +320,12 @@ template<>
 inline void SerializeNumber(std::string_view name, Vector3 defaultValue, const rapidjson::Value& value, BufferWriter& out)
 {
     Vector3 binValue = defaultValue;
-    if (value.HasMember(name.data()))
+    const auto member = value.FindMember(name.data());
+    if (member != value.MemberEnd() && member->value.IsArray())
     {
-        ReadValueNumber("x", binValue.x, value[name.data()]);
-        ReadValueNumber("y", binValue.x, value[name.data()]);
-        ReadValueNumber("z", binValue.z, value[name.data()]);
+        binValue.x = member->value.GetArray()[0].GetFloat();
+        binValue.y = member->value.GetArray()[1].GetFloat();
+        binValue.z = member->value.GetArray()[2].GetFloat();
     }
     out.Write(binValue);
 }
@@ -285,12 +334,28 @@ template<>
 inline void SerializeNumber(std::string_view name, Rectangle defaultValue, const rapidjson::Value& value, BufferWriter& out)
 {
     Rectangle binValue = defaultValue;
-    if (value.HasMember(name.data()))
+    const auto member = value.FindMember(name.data());
+    if (member != value.MemberEnd() && member->value.IsArray())
     {
-        ReadValueNumber("x", binValue.x, value[name.data()]);
-        ReadValueNumber("y", binValue.x, value[name.data()]);
-        ReadValueNumber("w", binValue.width, value[name.data()]);
-        ReadValueNumber("h", binValue.height, value[name.data()]);
+        binValue.x = member->value.GetArray()[0].GetFloat();
+        binValue.y = member->value.GetArray()[1].GetFloat();
+        binValue.width = member->value.GetArray()[2].GetFloat();
+        binValue.height = member->value.GetArray()[3].GetFloat();
+    }
+    out.Write(binValue);
+}
+
+template<>
+inline void SerializeNumber(std::string_view name, Color defaultValue, const rapidjson::Value& value, BufferWriter& out)
+{
+    Color binValue = defaultValue;
+    const auto member = value.FindMember(name.data());
+    if (member != value.MemberEnd() && member->value.IsArray())
+    {
+        binValue.r = uint8_t(member->value.GetArray()[0].GetInt());
+        binValue.g = uint8_t(member->value.GetArray()[1].GetInt());
+        binValue.b = uint8_t(member->value.GetArray()[2].GetInt());
+        binValue.a = uint8_t(member->value.GetArray()[3].GetInt());
     }
     out.Write(binValue);
 }

@@ -24,6 +24,12 @@ std::string imagesOutputFolder = "resources/images";
 std::unordered_map<std::string, std::function<void(BufferWriter& writer, rapidjson::Document& document)>> JsonSerializationFunctions;
 std::unordered_map<std::string, std::function<void(const std::filesystem::path &inPath)>> ExtensionSerializationFunctions;
 
+fs::path rootFolder;
+
+std::string_view GetInputFolder()
+{
+    return inputFolder;
+}
 
 void ProcessFile(const std::filesystem::path& path)
 {

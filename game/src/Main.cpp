@@ -19,6 +19,7 @@
 #include "components/BulletComponent.h"
 #include "components/PlayerSpawnComponent.h"
 #include "components/NPCSpawnComponent.h"
+#include "components/SpriteComponent.h"
 
 #include "ComponentReader.h"
 
@@ -92,6 +93,7 @@ void RegisterComponents()
     RegisterComponentWithUpdate<NPCComponent>(FrameStage::FixedUpdate, true);
     RegisterComponentWithUpdate<BulletComponent>(FrameStage::PreUpdate, true);
     RegisterComponentWithUpdate<NPCSpawnComponent>(FrameStage::FixedUpdate, true);
+    RegisterComponentWithUpdate<SpriteComponent>(FrameStage::FixedUpdate, true);
     EntitySystem::RegisterComponent<PlayerSpawnComponent>();
 }
 

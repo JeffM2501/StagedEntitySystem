@@ -4,6 +4,7 @@
 #include "components/PlayerComponent.h"
 #include "components/NPCComponent.h"
 #include "components/BulletComponent.h"
+#include "components/SpriteComponent.h"
 
 #include "PresentationManager.h"
 #include "EntitySystem.h"
@@ -48,6 +49,16 @@ void DrawTask::Tick()
 
                 npc.Data.Sprite.Scale = npc.Data.Size / 2.0f;
                 npc.Data.Sprite.Draw(interpPos, npc.Data.Tint);
+            }
+        });
+
+    EntitySystem::DoForEachComponent<SpriteComponent>([&](SpriteComponent& sprite)
+        {
+            auto transform = sprite.GetEntityComponent<TransformComponent>();
+            if (transform)
+            {
+                Vector2 interpPos = transform->Data.Position - Vector2(sprite.Data.Size, sprite.Data.Size);
+                sprite.Data.Sprite.Draw(interpPos, sprite.Data.Tint);
             }
         });
     PresentationManager::EndLayer();

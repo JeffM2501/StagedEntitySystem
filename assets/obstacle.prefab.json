@@ -1,0 +1,31 @@
+{
+  "Info": {
+    "spawnable": false
+  },
+  "Entities": [
+    {
+      "ID": -1,
+      "Name": "Obstacle",
+      "Components": {
+        "TransformComponent": {
+          "Position": [ 0, 0 ],
+          "Velocity": [ 0, 0 ]
+        },
+        "SpriteComponent": {
+          "Size": 10,
+          "Collidable": true,
+            "Sprite": {
+            "Sheet": "space.sprite.json",
+            "Frame": 23,
+            "Rotation" :  0
+          }
+        }
+      }
+    }
+  ],
+  "Meta": {
+    "version": "1.0",
+    "createdBy": "staged_execution_test",
+    "timestamp": "2026-02-23T00:00:00Z"
+  }
+}

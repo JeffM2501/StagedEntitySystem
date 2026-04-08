@@ -40,6 +40,20 @@ public:
         return c;
     }
 
+    template<>
+    Vector3 Read()
+    {
+        Vector3 c = { Read<float>(), Read<float>(), Read<float>() };
+        return c;
+    }
+
+    template<>
+    Rectangle Read()
+    {
+        Rectangle c = { Read<float>(), Read<float>(), Read<float>(), Read<float>() };
+        return c;
+    }
+
     template<typename T>
     size_t ReadArray(std::vector<T>& container)
     {

@@ -30,6 +30,21 @@
           "MaxSpawnCount": 20
         }
       }
+    },
+    {
+      "$type": "prefab",
+      "ID": -3,
+      "Prefab": "obstacle.prefab.json",
+      "Overrides": {
+        "Obstacle": {
+          "TransformComponent": {
+            "Position": [ 800, 400 ]
+          },
+          "SpriteComponent": {
+            "Tint": [255, 0, 0, 255 ]
+          }
+        }
+      }
     }
   ],
   "Meta": {

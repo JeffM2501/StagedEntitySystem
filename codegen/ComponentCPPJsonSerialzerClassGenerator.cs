@@ -72,6 +72,10 @@ namespace codegen
             {
                 writer.WriteLine($"\tSerializeColor(\"{field.Name}\", {field.DefaultValue}, json, out);");
             }
+            else if (CPPGenerator.IsBool(field.FieldTypename))
+            {
+                writer.WriteLine($"\tSerializeBool(\"{field.Name}\", {field.DefaultValue}, json, out);");
+            }
             else // see if it's a known struct
             {
                 foreach (var structClass in classes.Classes["struct"])

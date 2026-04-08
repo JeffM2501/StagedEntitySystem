@@ -20,7 +20,7 @@ inline void SerializePlayerComponent(const rapidjson::Value& json, BufferWriter&
 {
 	SerializeNumber<float>("Size", 10, json, out);
 	SerializeNumber<float>("Health", 100, json, out);
-	SerializeNumber<float>("PlayerSeed", 100, json, out);
+	SerializeNumber<float>("PlayerSpeed", 100, json, out);
 	SerializeNumber<float>("ReloadTime", 0.25, json, out);
 	SeralizeAssetReference("BulletPrefab", json, out);
 	SerializeNumber<float>("BulletSpreadDelta", 5.0, json, out);
@@ -63,6 +63,15 @@ inline void SerializeNPCSpawnComponent(const rapidjson::Value& json, BufferWrite
 	SeralizeAssetReference("NPCPrefab", json, out);
 }
 
+inline void SerializeSpriteComponent(const rapidjson::Value& json, BufferWriter& out)
+{
+	SerializeNumber<float>("Size", 20, json, out);
+	SerializeNumber<Color>("Tint", {0, 0, 255, 255}, json, out);
+	SerializeBool("Collidable", false, json, out);
+	if (json.HasMember("Sprite"))
+		SerializeSpriteReference(json["Sprite"], out);
+}
+
 inline void RegisterCompoenents()
 {
 	ComponentSerialization::Register("TransformComponent",  SerializeTransformComponent);
@@ -71,5 +80,6 @@ inline void RegisterCompoenents()
 	ComponentSerialization::Register("NPCComponent",  SerializeNPCComponent);
 	ComponentSerialization::Register("PlayerSpawnComponent",  SerializePlayerSpawnComponent);
 	ComponentSerialization::Register("NPCSpawnComponent",  SerializeNPCSpawnComponent);
+	ComponentSerialization::Register("SpriteComponent",  SerializeSpriteComponent);
 }
 } //Components

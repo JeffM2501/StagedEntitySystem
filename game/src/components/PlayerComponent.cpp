@@ -37,9 +37,9 @@ void PlayerComponent::Update()
                         if (bulletTransform)
                         {
                             bulletTransform->Data.Position = pos;
-                            float speed = Data.PlayerSpeed * Data.ShotSpeedMultiplyer + float(GetRandomValue(0, int(Data.PlayerSpeed * Data.ShotSpeedVariance)));
+                            float speed = Data.PlayerSpeed * Data.BulletSpeedMultiplier + float(GetRandomValue(0, int(Data.PlayerSpeed * Data.BulletSpeedVariance)));
 
-                            bulletTransform->Data.Velocity = Vector2(speed, float(GetRandomValue(int(-Data.ShotSpread), int(Data.ShotSpread)))) + (Input * Data.PlayerSpeed);
+                            bulletTransform->Data.Velocity = Vector2(speed, float(GetRandomValue(int(-Data.BulletSpreadDelta), int(Data.BulletSpreadDelta)))) + (Input * Data.PlayerSpeed);
                         }
                     });
             }

@@ -46,13 +46,13 @@ void SerializeSprite(BufferWriter& buffer, rapidjson::Document& sprite)
                 {
                     for (int i = 0; i < width; ++i)
                     {
-                        std::vector<float> frameRect{
-                            i * xOffset, // x
-                            j * yOffset, // y
-                            xOffset,     // width
-                            yOffset      // height
-                        };
-                        buffer.WriteArray(frameRect);
+                        buffer.Write(
+                            Rectangle{
+                                i * xOffset, // x
+                                j * yOffset, // y
+                                xOffset,     // width
+                                yOffset      // height
+                            });
                     }
                 }
             }

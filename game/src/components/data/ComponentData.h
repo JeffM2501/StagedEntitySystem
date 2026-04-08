@@ -4,7 +4,7 @@
 #include "SpriteManager.h"
 #include "raymath.h"
 
-namespace Components
+namespace Components_old
 {
     struct TransformComponentData
     {

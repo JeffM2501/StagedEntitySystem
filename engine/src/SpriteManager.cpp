@@ -59,7 +59,7 @@ namespace SpriteManager
                 uint32_t frameCount = reader.Read<uint32_t>();
                 for (uint32_t i = 0; i < frameCount; i++)
                 {
-                    Rectangle frameRect = { reader.Read<float>(), reader.Read<float>(), reader.Read<float>(), reader.Read<float>() };
+                    Rectangle frameRect = reader.Read<Rectangle>();
                     sprite->Frames[i] = frameRect;
                 }
                 sprite->Ready.store(true);
