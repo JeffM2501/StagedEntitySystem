@@ -8,8 +8,34 @@
 
 #include "CRC64.h"
 
-#include "raylib.h"
+struct Vector2
+{
+    float x;
+    float y;
+};
 
+struct Vector3
+{
+    float x;
+    float y;
+    float z;
+};
+
+struct Rectangle
+{
+    float x;
+    float y;
+    float width;
+    float height;
+};
+
+struct Color
+{
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+    uint8_t a;
+};
 
 class BufferWriter
 {

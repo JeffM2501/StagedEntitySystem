@@ -128,16 +128,9 @@ function use_Box2dV3()
     use_library("box2d", "erincatto/box2d", "main")
 end
 
-workspaceName = path.getbasename(os.getcwd())
 
-if (string.lower(workspaceName) == "raylib") then
-    print("raylib is a reserved name. Name your project directory something else.")
-    -- Project generation will succeed, but compilation will definitely fail, so just abort here.
-    os.exit()
-end
-
-workspace (workspaceName)
-    configurations { "Debug", "Release"}
+function define_workspace_platforms()
+     configurations { "Debug", "Release"}
     platforms { "x64", "x86", "ARM64"}
 
     defaultplatform ("x64")
@@ -157,7 +150,19 @@ workspace (workspaceName)
         architecture "ARM64"
 
     filter {}
+end
 
+workspaceName = path.getbasename(os.getcwd())
+
+if (string.lower(workspaceName) == "raylib") then
+    print("raylib is a reserved name. Name your project directory something else.")
+    -- Project generation will succeed, but compilation will definitely fail, so just abort here.
+    os.exit()
+end
+
+workspace (workspaceName)
+    define_workspace_platforms()
+    
     targetdir "bin/%{cfg.buildcfg}/"
 
     if(os.isdir("game")) then
@@ -170,16 +175,9 @@ check_raylib();
 
 include ("raylib_premake5.lua")
 
-if(os.isdir("game")) then
-    include ("game")
-end
+include ("game")
+include ("engine")
 
-folders = os.matchdirs("*")
-for _, folderName in ipairs(folders) do
-    if (string.starts(folderName, "raylib") == false and string.starts(folderName, ".") == false) then
-        if (os.isfile(folderName .. "/premake5.lua")) then
-            print(folderName)
-            include (folderName)
-        end
-    end
-end
+-- other projects
+include ("codegen")
+include ("databuilder")

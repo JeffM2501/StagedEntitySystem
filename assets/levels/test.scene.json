@@ -38,7 +38,7 @@
       "Overrides": {
         "Obstacle": {
           "TransformComponent": {
-            "Position": [ 800, 400 ]
+            "Position": [ 600, 400 ]
           },
           "SpriteComponent": {
             "Tint": [255, 0, 0, 255 ]

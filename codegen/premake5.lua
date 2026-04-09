@@ -16,6 +16,11 @@
 --  3. This notice may not be removed or altered from any source distribution.
 
 baseName = path.getbasename(os.getcwd());
+workspace (baseName)
+  define_workspace_platforms()
+    location "../"
+    cdialect "C17"
+    cppdialect "C++20"
 
 project (baseName)
     kind "ConsoleApp"

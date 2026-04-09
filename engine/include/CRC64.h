@@ -1,6 +1,7 @@
 #pragma once
 #include <cinttypes>
 #include <string>
+#include <string_view>
 
 namespace Hashes
 {

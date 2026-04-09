@@ -2,6 +2,11 @@
 
 baseName = path.getbasename(os.getcwd());
 
+workspace (baseName)
+    define_workspace_platforms()
+    location "../"
+    cdialect "C17"
+    cppdialect "C++20"
 project (baseName)
     kind "ConsoleApp"
     location "./"
@@ -43,6 +48,4 @@ project (baseName)
     includedirs { "include" }
     includedirs { "../rapidjson/include" }
     includedirs { "../engine/include" }
-
-    link_raylib()
 -- To link to a lib use link_to("LIB_FOLDER_NAME")
